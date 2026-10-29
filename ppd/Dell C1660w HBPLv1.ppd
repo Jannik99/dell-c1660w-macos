@@ -112,6 +112,13 @@
 *MediaType Recycled/Recycled: "<</MediaType(Recycled)>>setpagedevice"
 *CloseUI: *MediaType
 
+*OpenUI *EconoMode/Toner Save: PickOne
+*OrderDependency: 30 AnySetup *EconoMode
+*DefaultEconoMode: False
+*EconoMode False/Off: ""
+*EconoMode True/On (lighter, uses less toner): ""
+*CloseUI: *EconoMode
+
 *DefaultFont: Courier
 *Font Courier: Standard "(002.004S)" Standard ROM
 *Font Helvetica: Standard "(001.006S)" Standard ROM

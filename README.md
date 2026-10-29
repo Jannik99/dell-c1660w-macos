@@ -21,6 +21,7 @@ C1700. Only a C1660w PPD is included here, and only the C1660w was tested.
   test pages were printed, directly and through a print queue using the installed package.
 - Not tested on Intel Macs, on older macOS versions, or with duplex, labels or envelopes.
 - Colour and grayscale are implemented; **please report** what you see on your printer.
+- *Toner Save* (see below) was measured on the generated print data, not yet judged on paper by anyone but the author.
 
 ## Install
 
@@ -33,6 +34,25 @@ C1700. Only a C1660w PPD is included here, and only the C1660w was tested.
    *Use: Select Software…* → **Dell C1660w HBPLv1**.
 
 Give the printer a fixed address in your router.
+
+## Options in the print dialog
+
+| Option | Choices |
+|---|---|
+| Paper Size | A4, Letter, Legal, Executive, A5, B5, Folio and envelopes |
+| Color Mode | CMYK (default), RGB, Gray (black toner only) |
+| Paper Type | Plain, Bond, Lightweight Cardstock, Glossy Cardstock, Labels, Envelope, Recycled |
+| Toner Save | Off (default), On |
+
+**Toner Save** lightens the page before it is sent, as Dell's own driver does for its
+"Draft Mode": the printer is a host-based one, so the Mac prepares every dot. With it on,
+about 60 % of the ink is kept; measured on test pages, 60-62 % of the dot density remained
+in Gray, CMYK and RGB. Text gets lighter, so use it for drafts.
+
+Toner levels are shown by macOS under *Printers & Scanners → Options & Supplies*; the
+printer reports them over SNMP and nothing extra is needed.
+
+Not supported: duplex, paper tray choice, and the printer's own settings (power save, Wi-Fi).
 
 ## Build it yourself
 

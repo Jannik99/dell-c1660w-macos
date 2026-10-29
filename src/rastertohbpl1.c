@@ -38,6 +38,12 @@ int	MediaCode = 0;
 char	*Username = NULL;
 char	*Filename = NULL;
 int	Clip[] = { 8,8,8,8 };
+/*
+ * Toner save ("draft") mode. Like Dell's own driver, which lightens the page
+ * with a tone curve in the host, this keeps ECONO_PERCENT of the ink.
+ */
+#define ECONO_PERCENT 60
+int	Econo = 0;
 
 void
 error(int fatal, char *fmt, ...)
@@ -507,6 +513,17 @@ media_code(const char *type)
     return 0;
 }
 
+/* Lightens one raster line. Rasters made of light (W, RGB) and of ink (K, CMYK) go opposite ways. */
+static void
+lighten(unsigned char *line, unsigned n, int ink)
+{
+    unsigned i;
+
+    for (i = 0; i < n; i++)
+	line[i] = ink ? line[i] * ECONO_PERCENT / 100
+		      : 255 - (255 - line[i]) * ECONO_PERCENT / 100;
+}
+
 static int
 do_page(cups_raster_t *ras, cups_page_header2_t *h)
 {
@@ -580,6 +597,9 @@ do_page(cups_raster_t *ras, cups_page_header2_t *h)
 	if (cupsRasterReadPixels(ras, line, h->cupsBytesPerLine) == 0)
 	    memset(line, h->cupsColorSpace == CUPS_CSPACE_K
 			 || ideep == 4 ? 0 : 255, h->cupsBytesPerLine);
+	if (Econo)
+	    lighten(line, rwide*ideep,
+		    h->cupsColorSpace == CUPS_CSPACE_K || ideep == 4);
 	sp = line;
 	dp = image + row*byte + xoff*deep;
 	for (col = 0; col < rwide; col++)
@@ -636,6 +656,15 @@ main(int argc, char *argv[])
     }
     if (argv[2][0]) Username = argv[2];
     if (argv[3][0]) Filename = argv[3];
+    {
+	cups_option_t *opts = NULL;
+	int nopts = cupsParseOptions(argv[5], 0, &opts);
+	const char *v = cupsGetOption("EconoMode", nopts, opts);
+
+	Econo = v && (!strcasecmp(v, "True") || !strcasecmp(v, "On") ||
+		      !strcasecmp(v, "Yes"));
+	cupsFreeOptions(nopts, opts);
+    }
     if (argc == 7 && (fd = open(argv[6], O_RDONLY)) < 0)
     {
 	perror("ERROR: Unable to open raster file");

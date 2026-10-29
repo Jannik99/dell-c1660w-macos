@@ -7,7 +7,7 @@
 # end up beside the PPD in the driver list.
 set -euo pipefail
 cd "$(dirname "$0")"
-VERSION=${VERSION:-1.0.0}
+VERSION=${VERSION:-1.1.0}
 ID=io.github.hbpl1-macos.driver
 OUT="build/HBPLv1-Driver-C1660w-$VERSION.pkg"
 ROOT=build/root
