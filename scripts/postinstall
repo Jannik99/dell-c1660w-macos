@@ -1,0 +1,8 @@
+#!/bin/sh
+# CUPS only runs filters owned by root and not writable by others.
+PPD="/Library/Printers/PPDs/Contents/Resources/Dell C1660w HBPLv1.ppd"
+chown -R root:wheel /Library/Printers/HBPLv1 "$PPD"
+chmod 755 /Library/Printers/HBPLv1 /Library/Printers/HBPLv1/Filter \
+    /Library/Printers/HBPLv1/Filter/rastertohbpl1 /Library/Printers/HBPLv1/uninstall.sh
+chmod 644 /Library/Printers/HBPLv1/LICENSE "$PPD"
+exit 0

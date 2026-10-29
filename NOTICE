@@ -1,0 +1,24 @@
+Dell C1660w HBPLv1 driver for macOS
+===================================
+
+This package contains no code and no file from Dell. It is free software under
+the GNU General Public License, version 2 or (at your option) any later
+version (see LICENSE), and is built from:
+
+- src/rastertohbpl1.c
+  From https://github.com/wards999/dell-c1760nw-macos-driver (GPL v2 or later),
+  used unchanged. Its HBPLv1 encoder is taken unchanged from foo2hbpl1.c,
+  written by Dave Coffin in March 2014, as distributed in
+  https://github.com/mikerr/foo2zjs (foo2zjs, GPL v2 or later).
+
+- ppd/Dell C1660w HBPLv1.ppd
+  Derived from "Dell C1760nw HBPLv1.ppd" of the same macOS project. Changed:
+  model name and device ID for the C1660w, filter path. The change is noted
+  in the file itself.
+
+- tests/testpage.pdf
+  From the same macOS project, used unchanged.
+
+Dell and Dell C1660w are trademarks of Dell Inc. They name the printer this
+driver works with. This project is not affiliated with, endorsed by or
+supported by Dell Inc.
